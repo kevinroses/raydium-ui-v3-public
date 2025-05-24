@@ -12,7 +12,7 @@ import {
   CpmmConfigInfoLayout,
   ApiCpmmConfigInfo,
   CpmmLockExtInfo
-} from '@raydium-io/raydium-sdk-v2'
+} from '@/raydium-io/raydium-sdk-v2'
 import { PublicKey } from '@solana/web3.js'
 import createStore from './createStore'
 import { useAppStore } from './useAppStore'

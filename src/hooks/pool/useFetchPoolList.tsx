@@ -4,11 +4,12 @@ import { KeyedMutator } from 'swr'
 import { AxiosResponse } from 'axios'
 import axios from '@/api/axios'
 import shallow from 'zustand/shallow'
-import { PoolsApiReturn, ApiV3PoolInfoItem, PoolFetchType } from '@raydium-io/raydium-sdk-v2'
+import { PoolsApiReturn, ApiV3PoolInfoItem, PoolFetchType } from '@/raydium-io/raydium-sdk-v2'
 import { useAppStore } from '@/store'
 import { MINUTE_MILLISECONDS } from '@/utils/date'
 import { formatPoolData, formatAprData } from './formatter'
 import { ReturnPoolType, ReturnFormattedPoolType } from './type'
+import { BASE_HOST_HP } from '@/store/useAppStore'
 
 let refreshTag = Date.now()
 export const refreshPoolCache = () => (refreshTag = Date.now())
@@ -50,6 +51,7 @@ export default function useFetchPoolList<T extends PoolFetchType>(props?: {
   const [host, listUrl] = useAppStore((s) => [s.urlConfigs.BASE_HOST, s.urlConfigs.POOL_LIST], shallow)
 
   const url = host + listUrl + `?poolType=${showFarms ? `${type}Farm` : type}&poolSortField=${sort}&sortType=${order}&pageSize=${pageSize}`
+  //console.log(`--[useFetchPoolList]${url}\n`);
 
   const { data, setSize, error, ...swrProps } = useSWRInfinite(
     (index) => (shouldFetch ? [url + `&page=${index + 1}`, refreshTag] : null),

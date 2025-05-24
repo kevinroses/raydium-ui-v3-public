@@ -7,7 +7,7 @@ import {
   ApiV3PoolInfoConcentratedItem,
   U64_IGNORE_RANGE,
   ApiV3Token
-} from '@raydium-io/raydium-sdk-v2'
+} from '@/raydium-io/raydium-sdk-v2'
 import { AccountInfo } from '@solana/web3.js'
 import useTokenPrice from '@/hooks/token/useTokenPrice'
 import useSubscribeClmmInfo, { RpcPoolData } from './useSubscribeClmmInfo'

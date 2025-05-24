@@ -5,14 +5,14 @@ import {
   API_URLS,
   API_URL_CONFIG,
   ProgramIdConfig,
-  ALL_PROGRAM_ID,
+  DEVNET_PROGRAM_ID,
   JupTokenType,
   AvailabilityCheckAPI3,
   TxVersion,
   TokenInfo,
   DEV_LAUNCHPAD_PROGRAM,
   DEV_LAUNCHPAD_AUTH
-} from '@raydium-io/raydium-sdk-v2'
+} from '@/raydium-io/raydium-sdk-v2'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { Wallet } from '@solana/wallet-adapter-react'
 import createStore from './createStore'
@@ -24,7 +24,7 @@ import { setStorageItem, getStorageItem } from '@/utils/localStorage'
 import { retry, isProdEnv } from '@/utils/common'
 import { compare } from 'compare-versions'
 
-export const defaultNetWork = WalletAdapterNetwork.Mainnet // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
+export const defaultNetWork = WalletAdapterNetwork.Devnet // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
 export const defaultEndpoint = clusterApiUrl(defaultNetWork) // You can also provide a custom RPC endpoint
 export const APR_MODE_KEY = '_r_apr_'
 export const EXPLORER_KEY = '_r_explorer_'
@@ -95,7 +95,7 @@ interface AppState {
     SWAP_COMPUTE: string
     SWAP_TX: string
   }
-  programIdConfig: typeof ALL_PROGRAM_ID
+  programIdConfig: typeof DEVNET_PROGRAM_ID
 
   jupTokenType: JupTokenType
   displayTokenSettings: { official: boolean; jup: boolean; userAdded: boolean }
@@ -140,7 +140,7 @@ const appInitState = {
   aprMode: 'M' as 'M' | 'D',
   rpcs: [],
   urlConfigs: API_URLS,
-  programIdConfig: ALL_PROGRAM_ID,
+  programIdConfig: DEVNET_PROGRAM_ID,
   // programIdConfig: {
   //   ...ALL_PROGRAM_ID,
   //   LAUNCHPAD_PROGRAM: DEV_LAUNCHPAD_PROGRAM,
@@ -176,8 +176,15 @@ export const useAppStore = createStore<AppState>(
     ...appInitState,
     initRaydiumAct: async (payload) => {
       const action = { type: 'initRaydiumAct' }
-      const { initialing, urlConfigs, rpcNodeUrl, jupTokenType, displayTokenSettings } = get()
-      if (initialing || !rpcNodeUrl) return
+	  
+      let { initialing, urlConfigs, rpcNodeUrl, jupTokenType, displayTokenSettings } = get()
+	  if(!rpcNodeUrl){
+		  rpcNodeUrl="https://api.devnet.solana.com"
+	  }
+      if (initialing) {
+		  console.log(`--initialing raydium ${rpcNodeUrl}`)
+		  return
+	  }
       const connection = payload.connection || new Connection(rpcNodeUrl)
       set({ initialing: true }, false, action)
       const isDev = window.location.host === 'localhost:3002'
@@ -304,9 +311,20 @@ export const useAppStore = createStore<AppState>(
       if (rpcLoading) return
       rpcLoading = true
       try {
-        const {
+        /*const {
           data: { rpcs }
-        } = await axios.get<{ rpcs: RpcItem[] }>(urlConfigs.BASE_HOST + urlConfigs.RPCS)
+        } = await axios.get<{ rpcs: RpcItem[] }>(urlConfigs.BASE_HOST_F + urlConfigs.RPCS)*/
+		const rpcs = [
+          {
+            // url: 'https://crimson-thrumming-pine.solana-mainnet.quiknode.pro/8d148b8b6d222af728c0d5882edc7757623454cb',
+            // url: 'https://api.mainnet-beta.solana.com',
+            url: 'https://api.devnet.solana.com',
+            batch: true,
+            name: 'pika',
+            weight: 10
+          }
+        ]
+		console.log(`--rpcs:${JSON.stringify(rpcs)}`);
         set({ rpcs }, false, { type: 'fetchRpcsAct' })
         const localRpcNode: { rpcNode?: RpcItem; url?: string } = JSON.parse(
           getStorageItem(isProdEnv() ? RPC_URL_PROD_KEY : RPC_URL_KEY) || '{}'
@@ -337,7 +355,7 @@ export const useAppStore = createStore<AppState>(
         rpcLoading = false
       }
     },
-    setRpcUrlAct: async (url, skipToast, skipError) => {
+    setRpcUrlAct: async (url, skipToast, skipError) => {	  
       if (url === get().rpcNodeUrl) {
         toastSubject.next({
           status: 'info',
@@ -364,6 +382,7 @@ export const useAppStore = createStore<AppState>(
         isRpcLoading = false
         const rpcNode = get().rpcs.find((r) => r.url === url)
         set({ rpcNodeUrl: url, wsNodeUrl: rpcNode?.ws, tokenAccLoaded: false }, false, { type: 'setRpcUrlAct' })
+		console.log(`--setRpcUrlAct:${get().rpcNodeUrl}`);
         setStorageItem(
           isProdEnv() ? RPC_URL_PROD_KEY : RPC_URL_KEY,
           JSON.stringify({
@@ -397,7 +416,8 @@ export const useAppStore = createStore<AppState>(
       const res = await axios.get<{
         latest: string
         least: string
-      }>(`${urlConfigs.BASE_HOST}${urlConfigs.VERSION}`)
+      }>(`${urlConfigs.BASE_HOST_F}${urlConfigs.VERSION}`)
+	  console.log(`--version:${res.data.latest}`);
       set({ needRefresh: compare(appVersion, res.data.latest, '<') })
     },
 
@@ -409,7 +429,7 @@ export const useAppStore = createStore<AppState>(
           m: number
           vh: number
         }
-      }>(`${urlConfigs.BASE_HOST}${urlConfigs.PRIORITY_FEE}`)
+      }>(`${urlConfigs.BASE_HOST_F}${urlConfigs.PRIORITY_FEE}`)
       set({
         feeConfig: {
           [PriorityLevel.Fast]: data.default.m / 10 ** 9,

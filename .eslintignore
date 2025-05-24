@@ -3,3 +3,4 @@ out/*
 .next/*
 misc/*
 src/charting_library/*
+src/components/TradingView/*

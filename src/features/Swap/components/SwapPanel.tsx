@@ -17,7 +17,7 @@ import {
   CircularProgress,
   Tooltip as ChakraTip
 } from '@chakra-ui/react'
-import { ApiV3Token, RAYMint, SOL_INFO, TokenInfo, TransferFeeDataBaseType } from '@raydium-io/raydium-sdk-v2'
+import { ApiV3Token, RAYMint, SOL_INFO, TokenInfo, TransferFeeDataBaseType } from '@/raydium-io/raydium-sdk-v2'
 import { PublicKey } from '@solana/web3.js'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

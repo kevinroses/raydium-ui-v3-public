@@ -12,6 +12,7 @@ interface EventTypeConnectWallet {
 }
 
 export const sendWalletEvent = async (props: EventTypeConnectWallet) => {
+  return
   if (isLocal()) return
   try {
     const deviceInfo = parseUserAgent(window.navigator.userAgent)
@@ -35,6 +36,7 @@ interface EventTypeNetworkError {
 }
 
 export const sendNetworkEvent = async (props: EventTypeNetworkError) => {
+  return
   if (isLocal()) return
   try {
     const deviceInfo = parseUserAgent(window.navigator.userAgent)

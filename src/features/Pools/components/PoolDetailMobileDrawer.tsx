@@ -23,7 +23,7 @@ import {
   VStack,
   Badge
 } from '@chakra-ui/react'
-import { ApiV3Token, TokenInfo } from '@raydium-io/raydium-sdk-v2'
+import { ApiV3Token, TokenInfo } from '@/raydium-io/raydium-sdk-v2'
 import React from 'react'
 import useTokenPrice from '@/hooks/token/useTokenPrice'
 import { useTranslation } from 'react-i18next'

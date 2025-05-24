@@ -1,5 +1,5 @@
 import { Connection } from '@solana/web3.js'
-import { fetchMultipleInfo, AmmV4Keys, AmmV5Keys } from '@raydium-io/raydium-sdk-v2'
+import { fetchMultipleInfo, AmmV4Keys, AmmV5Keys } from '@/raydium-io/raydium-sdk-v2'
 import { useAppStore } from '@/store'
 import { MINUTE_MILLISECONDS } from '@/utils/date'
 import useSWR from 'swr'
@@ -52,6 +52,7 @@ const poolDataFetcher = async ([connection, poolKeys]: [connection: Connection, 
 export default function useFetchRpcPoolData({ poolId, refreshInterval = MINUTE_MILLISECONDS, shouldFetch = true, refreshTag }: Props) {
   const [connection, host, poolKeyUrl] = useAppStore((s) => [s.connection, s.urlConfigs.BASE_HOST, s.urlConfigs.POOL_KEY_BY_ID], shallow)
   const readyFetch = !!(connection && poolId && shouldFetch)
+  console.log(`--[useFetchRpcPoolData]${poolKeyUrl}\n`);
 
   const { data: poolKeysData } = useSWR(readyFetch ? `${host}${poolKeyUrl}?ids=${poolId}` : null, fetcher, {
     dedupingInterval: 60 * MINUTE_MILLISECONDS,

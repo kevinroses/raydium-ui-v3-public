@@ -330,7 +330,7 @@ export function printSimulate(transactions: Transaction[] | VersionedTransaction
     }
     allBase64.push(txToBase64(transaction));
   });
-  console.log("simulate tx string:", allBase64);
+  //console.log("simulate tx string:", allBase64);
 
   return allBase64;
 }

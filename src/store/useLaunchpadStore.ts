@@ -19,7 +19,7 @@ import {
   LaunchpadConfig,
   FEE_RATE_DENOMINATOR,
   ApiV3Token
-} from '@raydium-io/raydium-sdk-v2'
+} from '@/raydium-io/raydium-sdk-v2'
 import axios from '@/api/axios'
 import { MintInfo } from '@/features/Launchpad/type'
 import { refreshChartSubject } from '@/components/TradingView/TVChart'
@@ -412,7 +412,7 @@ export const useLaunchpadStore = createStore<LaunchpadState>((set, get) => ({
       }
 
       signedTxs[0] = bothSignedTx
-      console.log('simulate tx string:', signedTxs.map(txToBase64))
+      //console.log('simulate tx string:', signedTxs.map(txToBase64))
 
       const txLength = signedTxs.length
       const { toastId, handler } = getDefaultToastData({

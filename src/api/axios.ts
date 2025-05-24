@@ -1,4 +1,4 @@
-import { updateReqHistory } from '@raydium-io/raydium-sdk-v2'
+import { updateReqHistory } from '@/raydium-io/raydium-sdk-v2'
 import { toastSubject } from '@/hooks/toast/useGlobalToast'
 import i18n from '@/i18n'
 import axios from 'axios'

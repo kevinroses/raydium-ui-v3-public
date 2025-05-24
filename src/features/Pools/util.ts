@@ -1,4 +1,4 @@
-import { ApiV3PoolInfoItem, ApiV3PoolInfoCountItem, TokenInfo } from '@raydium-io/raydium-sdk-v2'
+import { ApiV3PoolInfoItem, ApiV3PoolInfoCountItem, TokenInfo } from '@/raydium-io/raydium-sdk-v2'
 
 import { isClient } from '@/utils/common'
 import { formatLocaleStr } from '@/utils/numberish/formatter'

@@ -20,7 +20,7 @@ import {
   TxVersion,
   getTransferAmountFeeV2,
   ClmmLockAddress
-} from '@raydium-io/raydium-sdk-v2'
+} from '@/raydium-io/raydium-sdk-v2'
 import { PublicKey } from '@solana/web3.js'
 import createStore from '@/store/createStore'
 import { useAppStore, useTokenAccountStore, useLiquidityStore } from '@/store'

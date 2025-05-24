@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useMemo } from 'react'
 import { clusterApiUrl, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { TxVersion, validateAndParsePublicKey, txToBase64 } from '@raydium-io/raydium-sdk-v2'
+import { TxVersion, validateAndParsePublicKey, txToBase64 } from '@/raydium-io/raydium-sdk-v2'
 import { useAppStore, defaultEndpoint } from '@/store/useAppStore'
 import usePrevious from '@/hooks/usePrevious'
 import shallow from 'zustand/shallow'
@@ -141,7 +141,10 @@ function useInitConnection(props: SSRData) {
 
   // init raydium sdk or update connection action
   useEffect(() => {
-    if (!connection || connection.rpcEndpoint === defaultEndpoint) return
+    if (!connection/* || connection.rpcEndpoint === defaultEndpoint*/) {
+		console.log(`--connection:${connection.rpcEndpoint} ${defaultEndpoint}`);
+		return
+	}
 
     useAppStore.setState({ connection, signAllTransactions }, false, { type: 'useInitConnection' } as any)
     // raydium sdk initialization can be done with connection only, if url or rpc changed, re-init

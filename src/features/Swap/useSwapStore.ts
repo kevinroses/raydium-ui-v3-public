@@ -1,5 +1,5 @@
 import { PublicKey, VersionedTransaction, Transaction, SignatureResult } from '@solana/web3.js'
-import { TxVersion, txToBase64, SOL_INFO, ApiV3Token } from '@raydium-io/raydium-sdk-v2'
+import { TxVersion, txToBase64, SOL_INFO, ApiV3Token } from '@/raydium-io/raydium-sdk-v2'
 import { createStore, useAppStore, useTokenAccountStore, useTokenStore } from '@/store'
 import { toastSubject } from '@/hooks/toast/useGlobalToast'
 import { txStatusSubject, TOAST_DURATION } from '@/hooks/toast/useTxStatus'
@@ -143,7 +143,7 @@ export const useSwapStore = createStore<SwapStore>(
         const swapTransactions = data || []
         const allTxBuf = swapTransactions.map((tx) => Buffer.from(tx.transaction, 'base64'))
         const allTx = allTxBuf.map((txBuf) => (isV0Tx ? VersionedTransaction.deserialize(txBuf as any) : Transaction.from(txBuf)))
-        console.log('simulate tx string:', allTx.map(txToBase64))
+        //console.log('simulate tx string:', allTx.map(txToBase64))
         const signedTxs = await signAllTransactions(allTx)
 
         // console.log('simulate tx string:', signedTxs.map(txToBase64))

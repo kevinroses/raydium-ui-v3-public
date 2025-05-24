@@ -35,7 +35,7 @@ type CreateTarget = 'legacy-amm' | 'standard-amm' | 'concentrated-liquidity' | '
 export function CreatePoolEntryDialog({
   isOpen,
   onClose,
-  defaultType = 'concentrated-liquidity'
+  defaultType = 'standard-amm'//'concentrated-liquidity'
 }: {
   isOpen: boolean
   onClose: () => void
@@ -185,7 +185,8 @@ export function CreatePoolEntryDialogBody({ type, onChange }: { type: CreateTarg
           isCreatePool
             ? () => (
                 <>
-                  <Text fontSize="sm">{t('create_pool.pool_type')}</Text>
+				  <div></div>
+                  {/* <Text fontSize="sm">{t('create_pool.pool_type')}</Text>
                   <Stack flexDirection={['column']} mt={2} gap={3}>
                     <PoolTypeItem
                       isSuggested
@@ -224,14 +225,14 @@ export function CreatePoolEntryDialogBody({ type, onChange }: { type: CreateTarg
                       }
                       onClickSelf={() => onChange('legacy-amm')}
                     />
-                  </Stack>
+                  </Stack>*/}
                 </>
               )
             : undefined
         }
         onClick={() => onChange('concentrated-liquidity')}
       />
-      <CreateBlock
+      {/* <CreateBlock
         title={t('farm.create')}
         description={
           isCreateFarm ? (
@@ -247,8 +248,8 @@ export function CreatePoolEntryDialogBody({ type, onChange }: { type: CreateTarg
         }
         selected={isCreateFarm}
         onClick={() => onChange('standard-farm')}
-      />
-      <CreateBlock
+      />*/}
+      {/* <CreateBlock
         title={t('create_pool.modal_section_header_lock')}
         description={
           isLockPool ? (
@@ -287,7 +288,7 @@ export function CreatePoolEntryDialogBody({ type, onChange }: { type: CreateTarg
             : undefined
         }
         onClick={() => onChange('clmm-lock')}
-      />
+      />*/}
     </Flex>
   )
 }

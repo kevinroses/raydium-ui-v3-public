@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState, useRef, forwardRef, useImperativeHandle } from 'react'
-import { TokenInfo, WSOLMint } from '@raydium-io/raydium-sdk-v2'
+import { TokenInfo, WSOLMint } from '@/raydium-io/raydium-sdk-v2'
 import { useTranslation } from 'react-i18next'
 import { PublicKey } from '@solana/web3.js'
 import { useEvent } from '@/hooks/useEvent'
@@ -21,13 +21,18 @@ import useTokenInfo from '@/hooks/token/useTokenInfo'
 import { isValidPublicKey } from '@/utils/publicKey'
 import { formatToRawLocaleStr } from '@/utils/numberish/formatter'
 import useTokenPrice, { TokenPrice } from '@/hooks/token/useTokenPrice'
+import { useAppStore } from '@/store'
 
 const perPage = 30
 
-const USDCMint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+/*const USDCMint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
 const SOLMint = PublicKey.default.toString()
 const RAYMint = '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R'
-const USDTMint = 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB'
+const USDTMint = 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB'*/
+const USDTMint = '49j9SgJWYidjtCyjroEzfa9NCyEoY9Zjmzmhxy6PeQyK'
+const USDCMint = '6BJwba9NyE3FJttj5PLTYmbeTzA6wMi44xaX4k6QqKZ5'
+const BBBMint = '3pwdEGLjayiKY11XUuNoXnekRpN8K6wNNr5nEiYgFKir'
+const RAYMint = 'HTzFnAwBGcN8ZfSxmLQ2G5jmCpkMpd7pb97WnrHCBQ6h'
 
 export interface TokenListHandles {
   resetSearch: () => void
@@ -61,7 +66,10 @@ export default forwardRef<
   })
 
   useEffect(() => {
-    if (fetchPriceList.some((m) => !data[m])) return
+    if (fetchPriceList.some((m) => !data[m])){
+		//console.log(`--fetchPriceList ${fetchPriceList}`);
+		return
+	}
     setTokenPrice(data)
   }, [data, fetchPriceList])
 
@@ -147,13 +155,13 @@ export default forwardRef<
     unsetExtraTokenListAct(token)
   }, [])
 
-  const USDC = useMemo(() => orgTokenMap.get(USDCMint), [orgTokenMap])
-  const SOL = useMemo(() => orgTokenMap.get(SOLMint), [orgTokenMap])
+  const USDC = useMemo(() => orgTokenMap.get(USDCMint), [orgTokenMap])  
   const RAY = useMemo(() => orgTokenMap.get(RAYMint), [orgTokenMap])
   const USDT = useMemo(() => orgTokenMap.get(USDTMint), [orgTokenMap])
+  const BBB = useMemo(() => orgTokenMap.get(BBBMint), [orgTokenMap])
 
   const [usdcDisabled, solDisabled, rayDisabled, usdtDisabled] = filterFn
-    ? [!USDC || !filterFn(USDC), !SOL || !filterFn(SOL), !RAY || !filterFn(RAY), !USDT || !filterFn(USDT)]
+    ? [!USDC || !filterFn(USDC), !BBB || !filterFn(BBB), !RAY || !filterFn(RAY), !USDT || !filterFn(USDT)]
     : [false, false, false, false]
 
   const renderTokenItem = useCallback(
@@ -198,10 +206,10 @@ export default forwardRef<
         </Heading>
 
         <SimpleGrid gridTemplateColumns={'repeat(auto-fill, minmax(80px, 1fr))'} gap={3}>
-          <PopularTokenCell token={USDC} onClick={(token) => onChooseToken(token)} disabled={usdcDisabled} />
-          <PopularTokenCell token={SOL} onClick={(token) => onChooseToken(token)} disabled={solDisabled} />
-          <PopularTokenCell token={RAY} onClick={(token) => onChooseToken(token)} disabled={rayDisabled} />
           <PopularTokenCell token={USDT} onClick={(token) => onChooseToken(token)} disabled={usdtDisabled} />
+		      <PopularTokenCell token={USDC} onClick={(token) => onChooseToken(token)} disabled={usdcDisabled} />
+          <PopularTokenCell token={BBB} onClick={(token) => onChooseToken(token)} disabled={solDisabled} />
+          <PopularTokenCell token={RAY} onClick={(token) => onChooseToken(token)} disabled={rayDisabled} />          
         </SimpleGrid>
       </Box>
 

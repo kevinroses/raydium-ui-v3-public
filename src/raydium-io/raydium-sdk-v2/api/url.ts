@@ -14,7 +14,7 @@ export const API_URLS = {
   SERVICE_BASE_HOST: "https://service.raydium.io",
   //MONITOR_BASE_HOST: "https://monitor.raydium.io",
   MONITOR_BASE_HOST: "https://faucet.devnet.openverse.network:4433",
-  SERVICE_1_BASE_HOST: "https://service-v1.raydium.io",
+  SERVICE_1_BASE_HOST: "https://faucet.devnet.openverse.network:4433",
 
   SEND_TRANSACTION: "/send-transaction",
   FARM_ARP: "/main/farm/info",
