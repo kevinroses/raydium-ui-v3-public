@@ -196,7 +196,7 @@ export const useTokenAccountStore = createStore<TokenAccountStore>(
       const { connection, publicKey: owner } = useAppStore.getState()
       if (!owner || !connection) {
 		  console.log(`6116 ${owner} ${connection}`);
-		  return
+	return
 	  }
       if (!forceFetch && (loading || (Date.now() - lastFetchTime < 3000 && owner.equals(preOwner) && commitment === preCommitment))) return
       preCommitment = commitment
