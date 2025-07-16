@@ -27,7 +27,6 @@ import { retry } from '@/utils/common'
 
 import Decimal from 'decimal.js'
 import BN from 'bn.js'
-import logMessage from '@/utils/log'
 
 export interface TokenAccountStore {
   tokenAccounts: TokenAccount[]
